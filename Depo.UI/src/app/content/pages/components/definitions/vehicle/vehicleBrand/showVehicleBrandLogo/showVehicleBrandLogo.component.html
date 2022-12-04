@@ -1,0 +1,39 @@
+<div class="m-portlet"
+	 [ngClass]="{ 'm-portlet--body-progress' : viewLoading, 'm-portlet--body-progress-overlay' : loadingAfterSubmit }">
+	<div class="m-portlet__head">
+		<div class="m-portlet__head-caption">
+			<div class="m-portlet__head-title">
+				<span class="m-portlet__head-icon m--hide">
+					<i class="la la-gear"></i>
+				</span>
+				<h3 class="m-portlet__head-text">{{getTitle()}}</h3>
+			</div>
+		</div>
+	</div>
+	<div class="m-form">
+		<div class="m-portlet__body">
+
+			<div class="m-portlet__body-progress">
+				<mat-spinner [diameter]="20"></mat-spinner>
+			</div>
+
+			<div class="form-group m-form__group row">
+				<img [src]="logo" style="position: absolute; margin: auto; top: 0; right: 0; bottom: 0; left: 0;" width="250" height="125" />
+			</div>
+		</div>
+
+		<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+			<div class="m-form__actions m-form__actions--solid">
+				<div class="row text-right">
+					<div class="col-lg-12">
+						<button type="button" mat-raised-button [mat-dialog-close]="data.animal"
+								[disabled]="viewLoading" cdkFocusInitial
+								matTooltip="{{ 'COMMON.BUTTONS.CLOSE' | translate }}">
+							<span translate="COMMON.BUTTONS.CLOSE">Close</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

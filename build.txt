@@ -1,0 +1,26 @@
+cd C:\Users\Nihat\Desktop\CETUR\deploy\bmsapi
+docker build -t bmsapi:test .
+docker save bmsapi:test > bmsapi.tar
+
+cd C:\Users\Nihat\Desktop\CETUR\deploy\bmsui
+docker build -t bmsui:test C:\Users\Nihat\source\repos\bms_v2\Bms.UI
+docker save bmsui:test > bmsui.tar
+
+cd C:\Users\Nihat\Desktop\CETUR\deploy\reverseproxy
+docker build -t reverseproxy:test .
+docker save reverseproxy:test > reverseproxy.tar
+
+
+
+sudo docker stop reverseproxy && sudo docker rm reverseproxy
+sudo docker stop bmsui && sudo docker rm bmsui
+sudo docker stop bmsapi && sudo docker rm bmsapi
+
+sudo docker load < reverseproxy.tar
+sudo docker load < bmsui.tar
+sudo docker load < bmsapi.tar
+
+
+sudo docker run -d --name bmsui --restart unless-stopped --log-opt max-size=10m --log-opt max-file=5 -p 5000:80 bmsui:test
+sudo docker run -d --name bmsapi --restart unless-stopped --log-opt max-size=10m --log-opt max-file=5 -p 5001:8080 bmsapi:test
+sudo docker run -d --name reverseproxy --restart unless-stopped --log-opt max-size=10m --log-opt max-file=5 -p 80:80 -p 8080:8080 reverseproxy:test

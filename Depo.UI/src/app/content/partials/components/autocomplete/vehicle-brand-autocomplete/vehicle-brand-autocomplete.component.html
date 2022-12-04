@@ -1,0 +1,12 @@
+<mat-form-field class="mat-form-field-fluid">
+    <mat-select [(ngModel)]="model" (ngModelChange)="onChangeModel($event)" [placeholder]="placeholder" [disabled] = "isDisable">
+        <ngx-mat-select-search [placeholderLabel]="'COMMON.SEARCH' | translate" [noEntriesFoundLabel]="'COMMON.NO_ENTRIES' | translate"
+            [formControl]="selectFilterControl">
+        </ngx-mat-select-search>
+        <mat-option *ngIf="type && type === 'NONE'" [value]="0">{{ 'COMMON.NONE' | translate }}</mat-option>
+        <mat-option *ngIf="type && type === 'ALL'" [value]="0">{{ 'COMMON.ALL' | translate }}</mat-option>
+        <mat-option *ngFor="let option of filtredOptions | async" [value]="option.id">
+            {{ option.brandName }}
+        </mat-option>
+    </mat-select>
+</mat-form-field> 

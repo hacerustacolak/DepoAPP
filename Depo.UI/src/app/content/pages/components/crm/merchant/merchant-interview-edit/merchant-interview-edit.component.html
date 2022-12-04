@@ -1,0 +1,90 @@
+<div class="m-portlet"
+	 [ngClass]="{ 'm-portlet--body-progress' : viewLoading, 'm-portlet--body-progress-overlay' : loadingAfterSubmit }">
+	<div class="m-portlet__head">
+		<div class="m-portlet__head-caption">
+			<div class="m-portlet__head-title">
+				<span class="m-portlet__head-icon m--hide">
+					<i class="la la-gear"></i>
+				</span>
+				<h3 class="m-portlet__head-text">{{getTitle()}}</h3>
+			</div>
+		</div>
+	</div>
+	<form class="m-form" [formGroup]="form">
+		<div class="m-portlet__body">
+
+			<div class="m-portlet__body-progress">
+				<mat-spinner [diameter]="20"></mat-spinner>
+			</div>
+
+			<m-alert *ngIf="formErrorMsg" type="warn" [duration]="30000" [showCloseButton]="true"
+					 (close)="onAlertClose($event)">
+				{{formErrorMsg}}
+			</m-alert>
+
+
+			<div class="form-group m-form__group row">
+				<div class="col-lg-12 m--margin-bottom-20-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput #title placeholder="{{ 'CRM.MERCHANT.INTERVIEW.TITLE' | translate }}"
+							   formControlName="title" />
+						<mat-error [innerHTML]="'FLOWCHART.VALIDATION.REQUIRED' | translate:{name: title.placeholder}">
+						</mat-error>
+					</mat-form-field>
+				</div>
+			</div>
+
+			<interview-type-autocomplete [modelSubject]="interviewTypeSubject"></interview-type-autocomplete>
+
+			<merchant-contact-autocomplete [merchantId]="merchantSubject" [modelSubject]="contactPersonSubject"></merchant-contact-autocomplete>
+
+
+			<div class="form-group m-form__group row">
+                <div class="col-lg-6 m--margin-bottom-20-mobile">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <input matInput [matDatepicker]="interviewDater" readonly placeholder="Görüşme Tarihi"
+                            [(ngModel)]="interviewDate" [ngModelOptions]="{standalone: true}">
+                        <mat-datepicker-toggle matSuffix [for]="interviewDater"></mat-datepicker-toggle>
+                        <mat-datepicker #interviewDater></mat-datepicker>
+                    </mat-form-field>
+                </div>
+				<div class="col-lg-3 m--margin-bottom-20-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput [ngxTimepicker]="interviewTime" [format]="24" readonly placeholder="Görüşme Zamanı"
+							[(ngModel)]="interviewTimer" [ngModelOptions]="{standalone: true}">
+						<ngx-material-timepicker #interviewTime></ngx-material-timepicker>
+					</mat-form-field>
+				</div>
+            </div>
+
+			<div class="form-group m-form__group row">
+				<div class="col-lg-12 m--margin-bottom-20-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<textarea matInput #description placeholder="{{ 'CRM.MERCHANT.INTERVIEW.DESCRIPTION' | translate }}"
+							   formControlName="description" style="height: 100px;"></textarea>
+						<mat-error [innerHTML]="'FLOWCHART.VALIDATION.REQUIRED' | translate:{name: description.placeholder}">
+						</mat-error>
+					</mat-form-field>
+				</div>
+			</div>
+
+		</div>
+		<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+			<div class="m-form__actions m-form__actions--solid">
+				<div class="row text-right">
+					<div class="col-lg-12">
+						<button type="button" mat-raised-button [mat-dialog-close]="data.animal"
+								[disabled]="viewLoading" cdkFocusInitial
+								matTooltip="{{ 'COMMON.CANCEL_CHANGES' | translate }}">
+							<span translate="COMMON.BUTTONS.CANCEL">Cancel</span>
+						</button>&nbsp;
+						<button type="button" mat-raised-button color="primary" (click)="onSubmit()"
+								[disabled]="viewLoading" matTooltip="{{ 'COMMON.SAVE_CHANGES' | translate }}">
+							<span translate="COMMON.BUTTONS.SAVE">Save</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,359 @@
+<div class="m-portlet"
+	 [ngClass]="{ 'm-portlet--body-progress' : viewLoading, 'm-portlet--body-progress-overlay' : loadingAfterSubmit }">
+	<div class="m-portlet__head">
+		<div class="m-portlet__head-caption">
+			<div class="m-portlet__head-title">
+				<span class="m-portlet__head-icon m--hide">
+					<i class="la la-gear"></i>
+				</span>
+				<h3 class="m-portlet__head-text">{{getTitle()}}</h3>
+			</div>
+		</div>
+	</div>
+	<form class="m-form" [formGroup]="form">
+		<div class="m-portlet__body">
+
+			<div class="m-portlet__body-progress">
+				<mat-spinner [diameter]="20"></mat-spinner>
+			</div>
+
+			<m-alert *ngIf="formErrorMsg" type="warn" [duration]="30000" [showCloseButton]="true"
+					 (close)="onAlertClose($event)">
+				{{formErrorMsg}}
+			</m-alert>
+
+
+			<mat-tab-group>
+				<!--araç bilgileri-->
+				<mat-tab label="Araç Bilgileri">
+					<div class="form-group m-form__group row">
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<sc-vehicle-type-autocomplete [modelSubject]="sCVehicleTypeIdSubject"></sc-vehicle-type-autocomplete>
+						</div>
+						<div class="col-lg-2 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input type="number" matInput #plateFirst placeholder="{{ 'DEFINITION.VEHICLE.VEHICLE.CITY' | translate }}"
+									   formControlName="plateFirst" />
+								<mat-error [innerHTML]="'FLOWCHART.VALIDATION.REQUIRED' | translate:{name: plateFirst.placeholder}">
+								</mat-error>
+							</mat-form-field>
+						</div>
+						<div class="col-lg-2 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput #plateSecond placeholder="{{ 'DEFINITION.VEHICLE.VEHICLE.CODE' | translate }}"
+									   formControlName="plateSecond" />
+								<mat-error [innerHTML]="'FLOWCHART.VALIDATION.REQUIRED' | translate:{name: plateSecond.placeholder}">
+								</mat-error>
+							</mat-form-field>
+						</div>
+
+						<div class="col-lg-2 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input type="number" matInput #plateThird placeholder="{{ 'DEFINITION.VEHICLE.VEHICLE.CODE2' | translate }}"
+									   formControlName="plateThird" />
+								<mat-error [innerHTML]="'FLOWCHART.VALIDATION.REQUIRED' | translate:{name: plateThird.placeholder}">
+								</mat-error>
+							</mat-form-field>
+						</div>
+					</div>
+
+					<div class="form-group m-form__group row" *ngIf="sCVehicleTypeIdSubject.value > 1">
+						<div class="col-lg-12 m--margin-bottom-20-mobile">
+							A
+							<!-- <sc-vehicle-type-autocomplete [modelSubject]="sCVehicleTypeIdSubject"></sc-vehicle-type-autocomplete> -->
+						</div>
+					</div>
+
+					<div class="form-group m-form__group row">
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<vehicle-tracking-device-company-autocomplete [modelSubject]="vehicleTrackingDeviceCompanyIdSubject"></vehicle-tracking-device-company-autocomplete>
+						</div>
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput #vehicleTrackingDeviceNo placeholder="{{ 'DEFINITION.VEHICLE.VEHICLE.FOLLOW_CODE' | translate }}"
+									   formControlName="vehicleTrackingDeviceNo" />
+								<mat-error [innerHTML]="'FLOWCHART.VALIDATION.REQUIRED' | translate:{name: vehicleTrackingDeviceNo.placeholder}">
+								</mat-error>
+							</mat-form-field>
+						</div>
+					</div>
+
+					<div class="form-group m-form__group row">
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<vehicle-brand-autocomplete [modelSubject]="vehicleBrandIdSubject"></vehicle-brand-autocomplete>
+						</div>
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<vehicle-model-autocomplete [(model)]="model.vehicleModelId" [modelSubject]="vehicleBrandIdSubject"></vehicle-model-autocomplete>
+						</div>
+					</div>
+
+					<div class="form-group m-form__group row">
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input type="number" matInput #vehicleRental placeholder="{{ 'DEFINITION.VEHICLE.VEHICLE.RENTAL' | translate }}"
+									   formControlName="vehicleRental" />
+								<mat-error [innerHTML]="'FLOWCHART.VALIDATION.REQUIRED' | translate:{name: vehicleRental.placeholder}">
+								</mat-error>
+							</mat-form-field>
+						</div>
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<vehicle-capacity-autocomplete [(model)]="model.vehicleCapacityId"></vehicle-capacity-autocomplete>
+						</div>
+					</div>
+
+					<div class="form-group m-form__group row">
+						<div class="col-lg-12 m--margin-bottom-20-mobile">
+							<vehicle-year-autocomplete [modelSubject]="vehicleYearSubject"></vehicle-year-autocomplete>
+						</div>
+					</div>
+
+				</mat-tab>
+				<!--araç photo-->
+				<mat-tab label="Araç Fotoğraf">
+					<div class="form-group m-form__group row">
+						<div class="col-lg-12 m--margin-bottom-20-mobile">
+							<div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (click)="fileInput.click()"
+								 (fileOver)="fileOverBase($event)" [uploader]="uploader" class="well my-drop-zone" *ngIf="!fileUploadDisabled">
+								araç fotoğrafınızı buraya sürekleyin!
+							</div>
+							<input #fileInput type="file" ng2FileSelect [uploader]="uploader" style="display:none" [disabled]="fileUploadDisabled" />
+						</div>
+					</div>
+					<div class="form-group m-form__group row" *ngIf="model.vehiclePhotoList != undefined && model.vehiclePhotoList.length > 0">
+						<div class="col-lg-6 m--margin-bottom-20-mobile" *ngFor="let item of model.vehiclePhotoList">
+							<div class="col-lg-4 m--margin-bottom-20-mobile">
+								<a href="javascript:void(0);" (click)="onDownloadItem(item)">{{item.fileName}}</a>
+							</div>
+							<div class="col-lg-8 m--margin-bottom-20-mobile">
+								<img [src]="item.fileBase64" width="250" height="125" />
+								<h5>{{item.fileLength/1024 | number:'1.1-2'}}KB</h5>
+							</div>
+						</div>
+					</div>
+				</mat-tab>
+				<!--araç lisans-->
+				<mat-tab label="Araç Ruhsat">
+					<div class="form-group m-form__group row">
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput [matDatepicker]="lisenceStartDate" readonly placeholder="Başlangıç Tarihi"
+									   [(ngModel)]="lisenceStartDater" [ngModelOptions]="{standalone: true}">
+								<mat-datepicker-toggle matSuffix [for]="lisenceStartDate"></mat-datepicker-toggle>
+								<mat-datepicker #lisenceStartDate></mat-datepicker>
+							</mat-form-field>
+						</div>
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput [matDatepicker]="lisenceEndDate" readonly placeholder="Bitiş Tarihi"
+									   [(ngModel)]="lisenceEndDater" [ngModelOptions]="{standalone: true}">
+								<mat-datepicker-toggle matSuffix [for]="lisenceEndDate"></mat-datepicker-toggle>
+								<mat-datepicker #lisenceEndDate></mat-datepicker>
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="form-group m-form__group row">
+						<div class="col-lg-12 m--margin-bottom-20-mobile">
+							<div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOverLisence}" (click)="fileInput.click()"
+								 (fileOver)="fileOverBaseLisence($event)" [uploader]="uploaderLisence" class="well my-drop-zone" *ngIf="!fileUploadDisabledLisence">
+								araç ruhsatınızı buraya sürekleyin!
+							</div>
+							<input #fileInput type="file" ng2FileSelect [uploader]="uploaderLisence" style="display:none" [disabled]="fileUploadDisabledLisence" />
+						</div>
+					</div>
+					<div class="form-group m-form__group row" *ngIf="model.vehicleLisenceList != undefined && model.vehicleLisenceList.fileLength > 0">
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<div class="col-lg-4 m--margin-bottom-20-mobile">
+								<a href="javascript:void(0);" (click)="onDownloadItem(model.vehicleLisenceList)">{{model.vehicleLisenceList.fileName}}</a>
+							</div>
+							<div class="col-lg-8 m--margin-bottom-20-mobile">
+								<img [src]="model.vehicleLisenceList.fileBase64" width="250" height="125" />
+								<h5>{{model.vehicleLisenceList.fileLength/1024 | number:'1.1-2'}}KB</h5>
+							</div>
+						</div>
+					</div>
+				</mat-tab>
+				<mat-tab label="Trafik Sigortası">
+					<div class="form-group m-form__group row">
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput [matDatepicker]="trafficInsuranceStartDate" readonly placeholder="Başlangıç Tarihi"
+									   [(ngModel)]="trafficInsuranceStartDater" [ngModelOptions]="{standalone: true}">
+								<mat-datepicker-toggle matSuffix [for]="trafficInsuranceStartDate"></mat-datepicker-toggle>
+								<mat-datepicker #trafficInsuranceStartDate></mat-datepicker>
+							</mat-form-field>
+						</div>
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput [matDatepicker]="trafficInsuranceEndDate" readonly placeholder="Bitiş Tarihi"
+									   [(ngModel)]="trafficInsuranceEndDater" [ngModelOptions]="{standalone: true}">
+								<mat-datepicker-toggle matSuffix [for]="trafficInsuranceEndDate"></mat-datepicker-toggle>
+								<mat-datepicker #trafficInsuranceEndDate></mat-datepicker>
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="form-group m-form__group row">
+						<div class="col-lg-12 m--margin-bottom-20-mobile">
+							<div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOverInsurance}" (click)="fileInput.click()"
+								 (fileOver)="fileOverBaseInsurance($event)" [uploader]="uploaderTrafficInsurance" class="well my-drop-zone" *ngIf="!fileUploadDisabledTrafficInsurance">
+								trafik sigortanızı buraya sürekleyin!
+							</div>
+							<input #fileInput type="file" ng2FileSelect [uploader]="uploaderTrafficInsurance" style="display:none" [disabled]="fileUploadDisabledTrafficInsurance" />
+						</div>
+					</div>
+					<div class="form-group m-form__group row" *ngIf="model.vehicleTrafficInsuranceList != undefined && model.vehicleTrafficInsuranceList.fileLength > 0">
+							<div class="col-lg-12 m--margin-bottom-20-mobile">
+								<a href="javascript:void(0);" (click)="onDownloadItem(model.vehicleTrafficInsuranceList)">{{model.vehicleTrafficInsuranceList.fileName}}</a>
+							</div>
+					</div>
+				</mat-tab>
+				<!-- IMMS -->
+				<mat-tab label="IMMS">
+					<div class="form-group m-form__group row">
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput [matDatepicker]="iMMSStartDate" readonly placeholder="Başlangıç Tarihi"
+									   [(ngModel)]="iMMSStartDater" [ngModelOptions]="{standalone: true}">
+								<mat-datepicker-toggle matSuffix [for]="iMMSStartDate"></mat-datepicker-toggle>
+								<mat-datepicker #iMMSStartDate></mat-datepicker>
+							</mat-form-field>
+						</div>
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput [matDatepicker]="iMMSEndDate" readonly placeholder="Bitiş Tarihi"
+									   [(ngModel)]="iMMSEndDater" [ngModelOptions]="{standalone: true}">
+								<mat-datepicker-toggle matSuffix [for]="iMMSEndDate"></mat-datepicker-toggle>
+								<mat-datepicker #iMMSEndDate></mat-datepicker>
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="form-group m-form__group row">
+						<div class="col-lg-12 m--margin-bottom-20-mobile">
+							<div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOverImms}" (click)="fileInput.click()"
+								 (fileOver)="fileOverBaseImms($event)" [uploader]="uploaderTrafficImms" class="well my-drop-zone" *ngIf="!fileUploadDisabledTrafficImms">
+								IMMS'i buraya sürekleyin!
+							</div>
+							<input #fileInput type="file" ng2FileSelect [uploader]="uploaderTrafficImms" style="display:none" [disabled]="fileUploadDisabledTrafficImms" />
+						</div>
+					</div>
+					<div class="form-group m-form__group row" *ngIf="model.vehicleTrafficIMMSList != undefined && model.vehicleTrafficIMMSList.fileLength > 0">
+							<div class="col-lg-12 m--margin-bottom-20-mobile">
+								<a href="javascript:void(0);" (click)="onDownloadItem(model.vehicleTrafficIMMSList)">{{model.vehicleTrafficIMMSList.fileName}}</a>
+							</div>
+					</div>
+				</mat-tab>
+				<!-- Muayene -->
+				<mat-tab label="Araç Muayene">
+					<div class="form-group m-form__group row">
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput [matDatepicker]="trafficInspectionStartDate" readonly placeholder="Başlangıç Tarihi"
+									   [(ngModel)]="trafficInspectionStartDater" [ngModelOptions]="{standalone: true}">
+								<mat-datepicker-toggle matSuffix [for]="trafficInspectionStartDate"></mat-datepicker-toggle>
+								<mat-datepicker #trafficInspectionStartDate></mat-datepicker>
+							</mat-form-field>
+						</div>
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput [matDatepicker]="trafficInspectionEndDate" readonly placeholder="Bitiş Tarihi"
+									   [(ngModel)]="trafficInspectionEndDater" [ngModelOptions]="{standalone: true}">
+								<mat-datepicker-toggle matSuffix [for]="trafficInspectionEndDate"></mat-datepicker-toggle>
+								<mat-datepicker #trafficInspectionEndDate></mat-datepicker>
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="form-group m-form__group row">
+						<div class="col-lg-12 m--margin-bottom-20-mobile">
+							<div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOverInspection}" (click)="fileInput.click()"
+								 (fileOver)="fileOverBasehasBaseDropZoneOverInspection($event)" [uploader]="uploaderTrafficInspection" class="well my-drop-zone" *ngIf="!fileUploadDisabledTrafficInspection">
+								Muayene'yi buraya sürekleyin!
+							</div>
+							<input #fileInput type="file" ng2FileSelect [uploader]="uploaderTrafficInspection" style="display:none" [disabled]="fileUploadDisabledTrafficInspection" />
+						</div>
+					</div>
+					<div class="form-group m-form__group row" *ngIf="model.vehicleInspectionList != undefined && model.vehicleInspectionList.fileLength > 0">
+							<div class="col-lg-12 m--margin-bottom-20-mobile">
+								<a href="javascript:void(0);" (click)="onDownloadItem(model.vehicleInspectionList)">{{model.vehicleInspectionList.fileName}}</a>
+							</div>
+					</div>
+				</mat-tab>
+				<!-- Bakım -->
+				<mat-tab label="Araç Bakım">
+					<div class="form-group m-form__group row">
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput [matDatepicker]="maintenanceEndDate" readonly placeholder="Bakım Tarihi"
+									   [(ngModel)]="maintenanceEndDater" [ngModelOptions]="{standalone: true}">
+								<mat-datepicker-toggle matSuffix [for]="maintenanceEndDate"></mat-datepicker-toggle>
+								<mat-datepicker #maintenanceEndDate></mat-datepicker>
+							</mat-form-field>
+						</div>
+							<div class="col-lg-6 m--margin-bottom-20-mobile">
+								<mat-form-field class="mat-form-field-fluid">
+									<input type="number" matInput #lastMaintenanceKM placeholder="{{ 'DEFINITION.VEHICLE.VEHICLE.LASTMAINTENANCEKM' | translate }}"
+										   formControlName="lastMaintenanceKM" />
+									<mat-error [innerHTML]="'FLOWCHART.VALIDATION.REQUIRED' | translate:{name: lastMaintenanceKM.placeholder}">
+									</mat-error>
+								</mat-form-field>
+							</div>
+					</div>
+					<div class="form-group m-form__group row">
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<h5>Araç Bakım Periyodu(KM): {{model.maintenancePeriodKM}}</h5>
+						</div>
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<h5>Araç Bakım Periyodu(SENE): {{model.maintenancePeriodYear}}</h5>
+						</div>
+					</div>
+					<div class="form-group m-form__group row">
+						<div class="col-lg-12 m--margin-bottom-20-mobile">
+							<div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOverMaintenance}" (click)="fileInput.click()"
+								 (fileOver)="fileOverBaseMaintenance($event)" [uploader]="uploaderMaintenance" class="well my-drop-zone" *ngIf="!fileUploadDisabledMaintenance">
+								Bakım'ı buraya sürekleyin!
+							</div>
+							<input #fileInput type="file" ng2FileSelect [uploader]="uploaderMaintenance" style="display:none" [disabled]="fileUploadDisabledMaintenance" />
+						</div>
+					</div>
+					<div class="form-group m-form__group row" *ngIf="model.vehicleMaintenanceList != undefined && model.vehicleMaintenanceList.fileLength > 0">
+							<div class="col-lg-12 m--margin-bottom-20-mobile">
+								<a href="javascript:void(0);" (click)="onDownloadItem(model.vehicleMaintenanceList)">{{model.vehicleMaintenanceList.fileName}}</a>
+							</div>
+					</div>
+				</mat-tab>
+			</mat-tab-group>
+
+
+			<!--
+
+
+
+			<div class="form-group m-form__group row">
+				<div class="col-lg-12 m--margin-bottom-20-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput #description placeholder="{{ 'DEFINITION.VEHICLE.BRAND.DESCRIPTION' | translate }}"
+							   formControlName="description" />
+						<mat-error [innerHTML]="'FLOWCHART.VALIDATION.REQUIRED' | translate:{name: description.placeholder}">
+						</mat-error>
+					</mat-form-field>
+				</div>
+			</div> -->
+
+		</div>
+		<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+			<div class="m-form__actions m-form__actions--solid">
+				<div class="row text-right">
+					<div class="col-lg-12">
+						<button type="button" mat-raised-button [mat-dialog-close]="data.animal"
+								[disabled]="viewLoading" cdkFocusInitial
+								matTooltip="{{ 'COMMON.CANCEL_CHANGES' | translate }}">
+							<span translate="COMMON.BUTTONS.CANCEL">Cancel</span>
+						</button>&nbsp;
+						<button type="button" mat-raised-button color="primary" (click)="onSubmit()"
+								[disabled]="viewLoading" matTooltip="{{ 'COMMON.SAVE_CHANGES' | translate }}">
+							<span translate="COMMON.BUTTONS.SAVE">Save</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
