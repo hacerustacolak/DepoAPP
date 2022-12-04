@@ -1,0 +1,203 @@
+<div
+	class="m-portlet"
+	[ngClass]="{
+		'm-portlet--body-progress': viewLoading,
+		'm-portlet--body-progress-overlay': loadingAfterSubmit
+	}"
+>
+	<div class="m-portlet__head">
+		<div class="m-portlet__head-caption">
+			<div class="m-portlet__head-title">
+				<span class="m-portlet__head-icon m--hide">
+					<i class="la la-gear"></i>
+				</span>
+				<h3 class="m-portlet__head-text">{{ getTitle() }}</h3>
+			</div>
+		</div>
+	</div>
+	<form class="m-form" [formGroup]="form">
+		<div class="m-portlet__body">
+			<div class="m-portlet__body-progress">
+				<mat-spinner [diameter]="20"></mat-spinner>
+			</div>
+
+			<m-alert
+				*ngIf="formErrorMsg"
+				type="warn"
+				[duration]="30000"
+				[showCloseButton]="true"
+				(close)="onAlertClose($event)"
+			>
+				{{ formErrorMsg }}
+			</m-alert>
+
+			<div class="form-group m-form__group row">
+				<div class="col-md-2 m--margin-bottom-20-mobile">
+					<mat-checkbox
+						[checked]="hasService"
+						(click)="hasServiceClick($event)"
+						>{{
+							"CRM.MERCHANT.DETAIL.HASSERVICE" | translate
+						}}</mat-checkbox
+					>
+				</div>
+			</div>
+			
+			<div class="form-group m-form__group row" *ngIf="hasService">
+                <div class="col-lg-12 m--margin-bottom-20-mobile">
+					<competitor-autocomplete  [modelSubject]="competitorSubject" ></competitor-autocomplete>
+                </div>
+            </div>
+
+			<div class="form-group m-form__group row">
+                <div class="col-lg-6 m--margin-bottom-20-mobile">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <input matInput [matDatepicker]="contractDatePicker" readonly placeholder="Kontrat Bitiş Tarihi"
+                            [(ngModel)]="model.contractEndDate" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChangeContractEndDateTime()">
+                        <mat-datepicker-toggle matSuffix [for]="contractDatePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #contractDatePicker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+				<div class="col-lg-6 m--margin-bottom-20-mobile">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <input matInput [matDatepicker]="tenderDatePicker" readonly placeholder="İhale Tarihi"
+                            [(ngModel)]="model.tenderDate" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChangeTenderDateTime()">
+                        <mat-datepicker-toggle matSuffix [for]="tenderDatePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #tenderDatePicker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+
+			<div class="form-group m-form__group row">
+                <div class="col-lg-6 m--margin-bottom-20-mobile">
+					<customer-representative-autocomplete [modelSubject]="customerRepresentativeSubject"></customer-representative-autocomplete>
+				</div>
+				<div class="col-lg-6 m--margin-bottom-20-mobile">
+					<daily-period-autocomplete [name]="nameOfContractPeriodSubject" [modelSubject]="contractPeriodSubject"></daily-period-autocomplete>
+				</div>
+			</div>
+			
+			<div class="form-group m-form__group row">
+				<div class="col-lg-6 m--margin-bottom-20-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput type="number" #personalCount placeholder="{{ 'CRM.MERCHANT.DETAIL.PERSONAL_NUMBER' | translate }}"
+							   formControlName="personalCount" />
+						<mat-error [innerHTML]="'FLOWCHART.VALIDATION.REQUIRED' | translate:{name: personalCount.placeholder}">
+						</mat-error>
+					</mat-form-field>
+				</div>
+				<div class="col-lg-6 m--margin-bottom-20-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput type="number" #shiftCount placeholder="{{ 'CRM.MERCHANT.DETAIL.SHIFT_COUNT' | translate }}"
+							   formControlName="shiftCount" />
+						<mat-error [innerHTML]="'FLOWCHART.VALIDATION.REQUIRED' | translate:{name: shiftCount.placeholder}">
+						</mat-error>
+					</mat-form-field>
+				</div>
+			</div>
+
+			<div class="form-group m-form__group row">
+				<div class="col-lg-6 m--margin-bottom-20-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput type="number" #vehicleCount placeholder="{{ 'CRM.MERCHANT.DETAIL.VEHICLE_COUNT' | translate }}"
+							   formControlName="vehicleCount" />
+						<mat-error [innerHTML]="'FLOWCHART.VALIDATION.REQUIRED' | translate:{name: vehicleCount.placeholder}">
+						</mat-error>
+					</mat-form-field>
+				</div>
+				<div class="col-md-6 m--margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<mat-select placeholder="Özel Transfer" [(ngModel)]="isSpecialTransfer" [value]="isSpecialTransfer" [ngModelOptions]="{standalone: true}">
+							<mat-option [value]="false">{{'CRM.MERCHANT.DETAIL.NO' | translate}}</mat-option>
+							<mat-option [value]="true">{{'CRM.MERCHANT.DETAIL.YES' | translate}}</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+			</div>
+
+			<div class="row m--margin-bottom-20-mobile">
+				<div class="col-md-2 m--margin-bottom-20-mobile">
+					<mat-checkbox
+						[checked]="vehicleDetail"
+						(click)="vehicleDetailClick($event)"
+						>{{
+							"CRM.MERCHANT.DETAIL.VEHICLE" | translate
+						}}</mat-checkbox
+					>
+				</div>
+			</div>
+
+			<div class="form-group m-form__group row" *ngIf="vehicleDetail">
+				<ng-container *ngFor="let item of vehicleDetails">
+					<div class="col-lg-7 m--margin-bottom-20-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input  type="number" matInput [(ngModel)]="item.vehicleCount" [ngModelOptions]="{standalone: true}"
+								   placeholder="* {{ 'CRM.MERCHANT.DETAIL.VEHICLE_COUNT' | translate }}"/>
+						</mat-form-field>
+					</div>
+
+					<div class="col-lg-3 m--margin-bottom-20-mobile">
+						<vehicle-capacity-autocomplete
+							[(model)]="item.vehicleCapacityId">
+						</vehicle-capacity-autocomplete>
+					</div>
+
+					<div class="col-lg-1 m--margin-bottom-20-mobile">
+						<button
+							mat-mini-fab
+							color="warn"
+							(click)="onRemoveDetail(item)"
+						>
+							<mat-icon>delete</mat-icon>
+						</button>
+					</div>
+				</ng-container>
+
+				<div
+					class="col-lg-3 col-lg-offset-10 m--margin-bottom-20-mobile"
+				>
+					<button
+						type="button"
+						mat-raised-button
+						color="primary"
+						(click)="onAddDetail()"
+					>
+						<span translate="CRM.MERCHANT.DETAIL.VEHICLE_ADD"></span>
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+			<div class="m-form__actions m-form__actions--solid">
+				<div class="row text-right">
+					<div class="col-lg-12">
+						<button
+							type="button"
+							mat-raised-button
+							[mat-dialog-close]="data.animal"
+							[disabled]="viewLoading"
+							cdkFocusInitial
+							matTooltip="{{
+								'COMMON.CANCEL_CHANGES' | translate
+							}}"
+						>
+							<span translate="COMMON.BUTTONS.CANCEL"
+								>Cancel</span
+							></button
+						>&nbsp;
+						<button
+							type="button"
+							mat-raised-button
+							color="primary"
+							(click)="onSubmit()"
+							[disabled]="viewLoading"
+							matTooltip="{{ 'COMMON.SAVE_CHANGES' | translate }}"
+						>
+							<span translate="COMMON.BUTTONS.SAVE">Save</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

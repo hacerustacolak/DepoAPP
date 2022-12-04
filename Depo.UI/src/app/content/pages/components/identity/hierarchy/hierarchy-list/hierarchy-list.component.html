@@ -1,0 +1,33 @@
+<!-- STYCKY PORTLET CONTROL | See structure => /metronic/sticky-form-actions -->
+<m-portlet [options]="{headLarge: true}">
+	<!-- PORTLET LOADING | Binded to TABLE Datasource -->
+	<ng-container mPortletHeadTitle>
+		<div class="m-portlet__head-title">
+			<h3 class="m-portlet__head-text">
+				<span translate="IDENTITY.HIERARCHY.LIST"></span>
+			</h3>
+		</div>
+	</ng-container>
+
+	<ng-container mPortletHeadTools>
+		<button mat-raised-button matTooltip="{{ 'COMMON.BUTTONS.EXPORT_EXCEL' | translate }}"
+				(click)="onExportToExcel()">
+			<div *ngIf="viewExcelLoading | async" class="excel-progress">
+				<mat-spinner [diameter]="20"></mat-spinner>
+			</div>
+			<span translate="COMMON.BUTTONS.EXPORT_EXCEL"></span>
+		</button>
+		<button *ngxPermissionsOnly="['canCreateUser']" (click)="onCreate()" mat-raised-button
+				matTooltip="{{ 'IDENTITY.HIERARCHY.CREATE' | translate }}" color="primary" type="button">
+			<span translate="IDENTITY.HIERARCHY.NEW"></span>
+		</button>
+	</ng-container>
+	<!-- end::Header -->
+	<!-- start::Body (attribute: mPortletBody) -->
+	<ng-container mPortletBody>
+		<div class="mat-table__wrapper">
+			<hierarchy-node></hierarchy-node>
+		</div>		
+	</ng-container>
+	<!-- end::Body -->
+</m-portlet>

@@ -1,0 +1,313 @@
+<div class="m-portlet"
+	 [ngClass]="{
+		'm-portlet--body-progress': viewLoading,
+		'm-portlet--body-progress-overlay': loadingAfterSubmit
+	}">
+	<div class="m-portlet__head">
+		<div class="m-portlet__head-caption">
+			<div class="m-portlet__head-title">
+				<span class="m-portlet__head-icon m--hide">
+					<i class="la la-gear"></i>
+				</span>
+				<h3 class="m-portlet__head-text">{{ getTitle() }}</h3>
+			</div>
+		</div>
+	</div>
+
+	<form class="m-form" [formGroup]="form">
+		<div class="m-portlet__body">
+			<div class="m-portlet__body-progress">
+				<mat-spinner [diameter]="20"></mat-spinner>
+			</div>
+
+			<m-alert *ngIf="formErrorMsg"
+					 type="warn"
+					 [duration]="30000"
+					 [showCloseButton]="true"
+					 (close)="onAlertClose($event)">
+				{{ formErrorMsg }}
+			</m-alert>
+
+			<mat-tab-group>
+				<!--teklif-->
+				<mat-tab label="Teklif">
+					<div class="form-group m-form__group row">
+						<div class="col-lg-4 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput type="number"
+									   #driverCost
+									   placeholder="{{
+										'CRM.MERCHANT.OFFER.DRIVER_COST'
+											| translate
+									}}"
+									   formControlName="driverCost" />
+								<mat-error [innerHTML]="
+										'FLOWCHART.VALIDATION.REQUIRED'
+											| translate
+												: {
+														name: driverCost.placeholder
+												  }
+									">
+								</mat-error>
+							</mat-form-field>
+						</div>
+						<div class="col-lg-4 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput type="number"
+									   #projectManagerCost
+									   placeholder="{{
+										'CRM.MERCHANT.OFFER.PROJECTMANAGER_COST'
+											| translate
+									}}"
+									   formControlName="projectManagerCost" />
+								<mat-error [innerHTML]="
+										'FLOWCHART.VALIDATION.REQUIRED'
+											| translate
+												: {
+														name: projectManagerCost.placeholder
+												  }
+									">
+								</mat-error>
+							</mat-form-field>
+						</div>
+						<div class="col-lg-4 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput type="number"
+									   #controlToolCost
+									   placeholder="{{
+										'CRM.MERCHANT.OFFER.CONTROLTOOL_COST'
+											| translate
+									}}"
+									   formControlName="controlToolCost" />
+								<mat-error [innerHTML]="
+										'FLOWCHART.VALIDATION.REQUIRED'
+											| translate
+												: {
+														name: controlToolCost.placeholder
+												  }
+									">
+								</mat-error>
+							</mat-form-field>
+						</div>
+					</div>
+
+					<div class="form-group m-form__group row">
+						<div class="col-lg-4 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput type="number"
+									   #controlToolCount
+									   placeholder="{{
+										'CRM.MERCHANT.OFFER.CONTROLTOOL_COUNT'
+											| translate
+									}}"
+									   formControlName="controlToolCount" />
+								<mat-error [innerHTML]="
+										'FLOWCHART.VALIDATION.REQUIRED'
+											| translate
+												: {
+														name: controlToolCount.placeholder
+												  }
+									">
+								</mat-error>
+							</mat-form-field>
+						</div>
+						<div class="col-lg-4 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input type="number" matInput #fuelLiterFee placeholder="{{'CRM.MERCHANT.OFFER.FUELLITER_FEE'| translate}}"
+									   formControlName="fuelLiterFee" />
+								<mat-error [innerHTML]="'FLOWCHART.VALIDATION.REQUIRED'| translate: {name: fuelLiterFee.placeholder}">
+								</mat-error>
+							</mat-form-field>
+						</div>
+						<div class="col-lg-4 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input type="number" matInput #fuelCommissionRate placeholder="{{ 'CRM.MERCHANT.OFFER.FUELCOMMISSION_RATE' | translate }}"
+									   formControlName="fuelCommissionRate" />
+								<mat-error [innerHTML]="'FLOWCHART.VALIDATION.REQUIRED' | translate:{name: fuelCommissionRate.placeholder}">
+								</mat-error>
+							</mat-form-field>
+						</div>
+					</div>
+
+					<div class="form-group m-form__group row">
+						<div class="col-lg-4 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input type="number" matInput #letterOfGuaranteeFee placeholder="{{ 'CRM.MERCHANT.OFFER.LETTER' | translate }}"
+									   formControlName="letterOfGuaranteeFee" />
+								<mat-error [innerHTML]="'FLOWCHART.VALIDATION.REQUIRED' | translate:{name: letterOfGuaranteeFee.placeholder}">
+								</mat-error>
+							</mat-form-field>
+						</div>
+						<div class="col-lg-4 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input type="number" matInput #annualFinancingFee placeholder="{{ 'CRM.MERCHANT.OFFER.ANNUAL' | translate }}"
+									   formControlName="annualFinancingFee" />
+								<mat-error [innerHTML]="'FLOWCHART.VALIDATION.REQUIRED' | translate:{name: annualFinancingFee.placeholder}">
+								</mat-error>
+							</mat-form-field>
+						</div>
+						<div class="col-lg-4 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input type="number" matInput #profitMultiplier placeholder="{{ 'CRM.MERCHANT.OFFER.MULTIPLIER' | translate }}"
+									   formControlName="profitMultiplier" />
+								<mat-error [innerHTML]="'FLOWCHART.VALIDATION.REQUIRED' | translate:{name: profitMultiplier.placeholder}">
+								</mat-error>
+							</mat-form-field>
+						</div>
+					</div>
+				</mat-tab>
+				<!--kira bedelleri-->
+				<mat-tab label="Şirket Aracı Kira Bedelleri">
+
+					<div class="form-group m-form__group row">
+						<div class="col-lg-4 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input type="number" matInput #miniRentalFee placeholder="{{ 'CRM.MERCHANT.OFFER.MINI' | translate }}"
+									   formControlName="miniRentalFee" />
+								<mat-error [innerHTML]="'FLOWCHART.VALIDATION.REQUIRED' | translate:{name: miniRentalFee.placeholder}">
+								</mat-error>
+							</mat-form-field>
+						</div>
+						<div class="col-lg-4 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input type="number" matInput #midiRentalFee placeholder="{{ 'CRM.MERCHANT.OFFER.MIDI' | translate }}"
+									   formControlName="midiRentalFee" />
+								<mat-error [innerHTML]="'FLOWCHART.VALIDATION.REQUIRED' | translate:{name: midiRentalFee.placeholder}">
+								</mat-error>
+							</mat-form-field>
+						</div>
+						<div class="col-lg-4 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input type="number" matInput #busRentalFee placeholder="{{ 'CRM.MERCHANT.OFFER.BUS' | translate }}"
+									   formControlName="busRentalFee" />
+								<mat-error [innerHTML]="'FLOWCHART.VALIDATION.REQUIRED' | translate:{name: busRentalFee.placeholder}">
+								</mat-error>
+							</mat-form-field>
+						</div>
+					</div>
+
+					<div class="form-group m-form__group row">
+						<div class="col-lg-4 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input type="number" matInput #carRentalFee placeholder="{{ 'CRM.MERCHANT.OFFER.CAR' | translate }}"
+									   formControlName="carRentalFee" />
+								<mat-error [innerHTML]="'FLOWCHART.VALIDATION.REQUIRED' | translate:{name: carRentalFee.placeholder}">
+								</mat-error>
+							</mat-form-field>
+						</div>
+						<div class="col-lg-4 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input type="number" matInput #customerMaturity placeholder="{{ 'CRM.MERCHANT.OFFER.CUSTOMER_MATURITY' | translate }}"
+									   formControlName="customerMaturity" />
+								<mat-error [innerHTML]="'FLOWCHART.VALIDATION.REQUIRED' | translate:{name: customerMaturity.placeholder}">
+								</mat-error>
+							</mat-form-field>
+						</div>
+						<div class="col-lg-4 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input type="number" matInput #subcontractorMaturity placeholder="{{ 'CRM.MERCHANT.OFFER.SUBCONTRACTOR_MATURITY' | translate }}"
+									   formControlName="subcontractorMaturity" />
+								<mat-error [innerHTML]="'FLOWCHART.VALIDATION.REQUIRED' | translate:{name: subcontractorMaturity.placeholder}">
+								</mat-error>
+							</mat-form-field>
+						</div>
+					</div>
+
+					<div class="form-group m-form__group row">
+						<div class="col-lg-4 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input type="number" matInput #fuelMaturity placeholder="{{ 'CRM.MERCHANT.OFFER.FUEL_MATURITY' | translate }}"
+									   formControlName="fuelMaturity" />
+								<mat-error [innerHTML]="'FLOWCHART.VALIDATION.REQUIRED' | translate:{name: fuelMaturity.placeholder}">
+								</mat-error>
+							</mat-form-field>
+						</div>
+						<div class="col-lg-4 m--margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<input matInput #description placeholder="{{ 'CRM.MERCHANT.OFFER.DESCRIPTION' | translate }}"
+									   formControlName="description" />
+								<mat-error [innerHTML]="'FLOWCHART.VALIDATION.REQUIRED' | translate:{name: description.placeholder}">
+								</mat-error>
+							</mat-form-field>
+						</div>
+						<div class="col-lg-4 m--margin-bottom-20-mobile">
+							<merchant-offer-status-autocomplete [modelSubject]="statusSubject"></merchant-offer-status-autocomplete>
+						</div>
+					</div>
+				</mat-tab>
+				<!--dosya yükleme-->
+				<mat-tab label="Excel Yükle">
+					<div class="form-group m-form__group row">
+						<div class="col-lg-12 m--margin-bottom-20-mobile">
+							<div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (click)="fileInput.click()"
+								 (fileOver)="fileOverBase($event)" [uploader]="uploader" class="well my-drop-zone" *ngIf="!fileUploadDisabled">
+								Dosyanızı buraya sürekleyin!
+							</div>
+							<input #fileInput type="file" ng2FileSelect [uploader]="uploader" style="display:none" [disabled]="fileUploadDisabled" />
+						</div>
+					</div>
+					<div class="form-group m-form__group row" *ngIf="model.fileSize>0">
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<h5>{{model.fileName}}</h5>
+						</div>
+						<div class="col-lg-6 m--margin-bottom-20-mobile">
+							<h5>{{model.fileSize/1024 | number:'1.1-2'}}KB</h5>
+						</div>
+					</div>
+					<div class="form-group m-form__group row">
+						<div class="col-lg-12 m--margin-bottom-20-mobile">
+							<merchant-offer-file-type-autocomplete [modelSubject]="fileTypeSubject"></merchant-offer-file-type-autocomplete>
+						</div>
+					</div>
+
+					<div class="m-portlet__head">
+						<div class="m-portlet__head-caption">
+							<div class="m-portlet__head-title">
+								<span class="m-portlet__head-icon m--hide">
+									<i class="la la-gear"></i>
+								</span>
+								<h3 class="m-portlet__head-text">{{ 'CRM.MERCHANT.OFFER.INSTALLED_FILES' | translate }}</h3>
+							</div>
+						</div>
+					</div>
+					<div class="form-group m-form__group row" *ngIf="model.merchantOfferFile">
+						<ng-container *ngFor="let item of model.merchantOfferFile">
+							<div class="col-lg-3 m--margin-bottom-20-mobile">
+								<h4>{{item.fileType}}</h4>
+							</div>
+							<div class="col-lg-9 m--margin-bottom-20-mobile">
+								<a href="javascript:void(0);" (click)="onDownloadItem(item)">{{item.fileName}}</a>
+							</div>
+						</ng-container>
+					</div>
+				</mat-tab>
+			</mat-tab-group>
+		</div>
+		<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+			<div class="m-form__actions m-form__actions--solid">
+				<div class="row text-right">
+					<div class="col-lg-12">
+						<button type="button"
+								mat-raised-button
+								[mat-dialog-close]="data.animal"
+								[disabled]="viewLoading"
+								cdkFocusInitial
+								matTooltip="{{
+								'COMMON.CANCEL_CHANGES' | translate
+							}}">
+							<span translate="COMMON.BUTTONS.CANCEL">Cancel</span>
+						</button>&nbsp;
+						<button type="button"
+								mat-raised-button
+								color="primary"
+								(click)="onSubmit()"
+								[disabled]="viewLoading"
+								matTooltip="{{ 'COMMON.SAVE_CHANGES' | translate }}">
+							<span translate="COMMON.BUTTONS.SAVE">Save</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
