@@ -1,3 +1,5 @@
+import { TransitionCheckState } from "@angular/material";
+
 export class MerchantModel {
 	id: number;
 	companyId:number;
@@ -13,10 +15,14 @@ export class MerchantModel {
 	groupName: string;
 	phone:string;
 	email:string;
-	logoCode:string;
+	// logoCode:string;
+	merchantCode:string;
 	representive:string;
 	createDate:string;
-	city:string;
+	city:number;
+	warehouse1: number;
+	warehouse2: number;
+	
 
 	clear() {
 		this.id = 0;
@@ -33,10 +39,14 @@ export class MerchantModel {
 		this.regionName = '';
 		this.phone = '';
 		this.email = ''; 
-		this.logoCode= '';
+		// this.logoCode= '';
+		this.merchantCode='';
 		this.representive= '';
 		this.createDate= '';
-		this.city= '';
+		this.city= 0;
+		this.warehouse1=0;
+		this.warehouse2=0;
+
 	}
 }
 

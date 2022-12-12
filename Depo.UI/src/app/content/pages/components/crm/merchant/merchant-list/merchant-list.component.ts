@@ -64,11 +64,13 @@ export class MerchantListComponent implements OnInit {
 			this.displayedColumns = [
 				'merchantName',
 				'aliasName',
+				'merchantCode',
 				'phone',
 				'city',
-				'createDate',
-				'representive',
-				'logoCode',
+				'warehouse1',
+				'warehouse2',
+				// 'createDate',
+				// 'representive',
 				'actions',
 			];
 
