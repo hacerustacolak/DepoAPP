@@ -3,19 +3,19 @@ import { takeUntil } from 'rxjs/operators';
 import { Component, OnInit, Input, EventEmitter, Output, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { RegionService } from '../../../../pages/components/definitions/region/region.service';
 import { ApiResponseModel } from '../../../../../core/models/api-response.model';
+import { RegionService } from '../../../../pages/components/definitions/region/region.service';
 
 
 /**
  * @title Highlight the first autocomplete option
  */
 @Component({
-	selector: 'city-autocomplete',
-	templateUrl: './city-autocomplete.component.html',
+	selector: 'city-single-autocomplete',
+	templateUrl: './city-single-autocomplete.component.html',
 	providers: [RegionService]
 })
-export class CityAutocompleteComponent implements OnInit {
+export class RegionAutocompleteComponent implements OnInit {
 	isLoading = false;
 	isErasable = true;
 
@@ -42,7 +42,7 @@ export class CityAutocompleteComponent implements OnInit {
 	constructor(private regionService: RegionService,
 		private translateService: TranslateService,
 		private cdr: ChangeDetectorRef) {
-		this.placeholder = "Şehir";
+		this.placeholder = this.translateService.instant('DEFINITION.REGION.NAME');
 	}
 
 	ngOnInit() {
@@ -70,9 +70,15 @@ export class CityAutocompleteComponent implements OnInit {
 	}
 
 	loadOptions(): any {
-		this.regionService.getAllCity().subscribe((res: ApiResponseModel<any[]>) => {
+		this.regionService.getAll().subscribe((res: ApiResponseModel<any[]>) => {
 			this.options = res.data;
 			this.filtredOptions.next(this.options.slice());
+			if(this.type != 'ALL' && this.options.length === 1){
+				this.modelSubject.next(this.options[0].id);
+			}
+			if(this.type === 'ALL'){
+				this.modelSubject.next(0);
+			}
 		});
 	}
 
@@ -87,6 +93,6 @@ export class CityAutocompleteComponent implements OnInit {
 
 		value = value.toLowerCase();
 
-		return this.options.filter(option => option.cityName.toLowerCase().includes(value));
+		return this.options.filter(option => option.regionName.toLowerCase().includes(value));
 	}
 }

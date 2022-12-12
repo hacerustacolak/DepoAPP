@@ -67,7 +67,9 @@ namespace Depo.Api.Controllers.Crm
                                 City = r.City,
                                 LogoCode=r.LogoCode,
                                 Representive = r.Representive,
-                                CreateDate=r.CreateDate.ToString("yyyy-MM-dd")
+                                CreateDate=r.CreateDate.ToString("yyyy-MM-dd"),
+                                Depo1Id=r.Depo1Id,
+                                Depo2Id=r.Depo2Id
                             };
 
                 if (filter != null)
@@ -270,9 +272,11 @@ namespace Depo.Api.Controllers.Crm
                 updatedModel.Phone = merchant.Phone;
                 updatedModel.Representive = merchant.Representive;
                 updatedModel.City = merchant.City;
-                 
+				updatedModel.Depo1Id = merchant.Depo1Id;
+				updatedModel.Depo2Id = merchant.Depo2Id;
 
-                updatedModel.ModifiedDate = DateTime.UtcNow;
+
+				updatedModel.ModifiedDate = DateTime.UtcNow;
                 updatedModel.ModifierUserId = Utility.GetCurrentUser(User).Id;
 
                 _context.Entry(updatedModel).State = EntityState.Modified;

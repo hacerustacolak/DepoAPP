@@ -1,11 +1,13 @@
 <mat-form-field class="mat-form-field-fluid">
-    <mat-select [(ngModel)]="model" (ngModelChange)="onChangeModel($event)" [placeholder]="placeholder">
-        <ngx-mat-select-search [placeholderLabel]="'COMMON.SEARCH' | translate"
-            [noEntriesFoundLabel]="'COMMON.NO_ENTRIES' | translate" [formControl]="selectFilterControl">
-        </ngx-mat-select-search> 
+    <mat-select [(ngModel)]="model" (ngModelChange)="onChangeModel($event)" [placeholder]="placeholder" [disabled] = "isDisable">
+        <ngx-mat-select-search [placeholderLabel]="'COMMON.SEARCH' | translate" [noEntriesFoundLabel]="'COMMON.NO_ENTRIES' | translate"
+            [formControl]="selectFilterControl">
+        </ngx-mat-select-search>
+        <mat-option *ngIf="type && type === 'NONE'" [value]="0">{{ 'COMMON.NONE' | translate }}</mat-option>
+        <mat-option *ngIf="type && type === 'ALL'" [value]="0">{{ 'COMMON.ALL' | translate }}</mat-option>
         <mat-option [value]="1">ADANA</mat-option>
         <mat-option [value]="2">ADIYAMAN</mat-option>
-        <mat-option [value]="3">3</mat-option>
+        <mat-option [value]="3">AFYONKARAHİSAR</mat-option>
         <mat-option [value]="4">AĞRI</mat-option>
         <mat-option [value]="5">AMASYA</mat-option>
         <mat-option [value]="6">ANKARA</mat-option>
@@ -85,7 +87,7 @@
         <mat-option [value]="80">OSMANİYE</mat-option>
         <mat-option [value]="81">DÜZCE</mat-option>
         <mat-option *ngFor="let option of filtredOptions | async" [value]="option.id">
-            {{ option.cityName }}
+            {{ option.regionName }}
         </mat-option>
     </mat-select>
-</mat-form-field>
+</mat-form-field> 

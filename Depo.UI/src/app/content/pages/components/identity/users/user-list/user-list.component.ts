@@ -125,7 +125,7 @@ export class UserListComponent implements OnInit {
 			Merchant: this.filterMerchant,
 			Status: this.filterStatus != -1 ? this.filterStatus : null
 		};
-
+debugger;
 		return filter;
 	}
 

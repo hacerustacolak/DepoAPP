@@ -94,6 +94,12 @@
                     <mat-cell *matCellDef="let model">{{model.aliasName}}</mat-cell>
                 </ng-container>
 
+                <ng-container matColumnDef="merchantCode">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'MÜŞ. KODU' | translate }}
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let model">{{model.merchantCode}}</mat-cell>
+                </ng-container>
+
                 <ng-container matColumnDef="phone">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'TELEFON' | translate }}
                     </mat-header-cell>
@@ -106,23 +112,31 @@
                     <mat-cell *matCellDef="let model">{{model.city}}</mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="createDate">
+                <!-- <ng-container matColumnDef="createDate">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'KAYIT TARİHİ' | translate }}
                     </mat-header-cell>
                     <mat-cell *matCellDef="let model">{{model.createDate}}</mat-cell>
-                </ng-container> 
+                </ng-container>  -->
                 
-                <ng-container matColumnDef="representive">
+                <!-- <ng-container matColumnDef="representive">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'TEMSILCI' | translate }}
                     </mat-header-cell>
                     <mat-cell *matCellDef="let model">{{model.representive}}</mat-cell>
+                </ng-container> -->
+
+                <ng-container matColumnDef="warehouse1">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{ '1.DEPO' | translate }}
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let model">{{model.warehouse1}}</mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="logoCode">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'LOGO KOD' | translate }}
+                <ng-container matColumnDef="warehouse2">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{ '2.DEPO' | translate }}
                     </mat-header-cell>
-                    <mat-cell *matCellDef="let model">{{model.logoCode}}</mat-cell>
+                    <mat-cell *matCellDef="let model">{{model.warehouse2}}</mat-cell>
                 </ng-container>
+
+               
 
                 <ng-container matColumnDef="actions">
                     <mat-header-cell *matHeaderCellDef class="mat-cell-center">{{ 'COMMON.ACTIONS' | translate }}

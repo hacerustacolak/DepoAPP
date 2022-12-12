@@ -20,6 +20,7 @@ export class MerchantEditComponent implements OnInit {
 	loadingAfterSubmit: boolean = false;
 	companySubject: BehaviorSubject<number>;
 	regionSubject: BehaviorSubject<number>;
+	citySubject: BehaviorSubject<number>;
 
 	constructor(public dialogRef: MatDialogRef<MerchantEditComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: any,
@@ -31,18 +32,24 @@ export class MerchantEditComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.model = this.data.model; 
+		this.model = this.data.model;
+		this.citySubject = new BehaviorSubject<number>(this.model.city);
 		this.createForm();
 	}
- 
-	createForm() { 
+
+	createForm() {
 		this.form = this.fb.group({
 			merchantName: [this.model.merchantName],
 			aliasName: [this.model.aliasName],
-			city: [this.model.city],  
-			representive: [this.model.representive],
+			city: [this.model.city],
+			// representive: [this.model.representive],
 			phone: [this.model.phone],
-			logoCode: [this.model.logoCode],
+			merchantCode: [this.model.merchantCode],
+			warehouse1: [this.model.warehouse1],
+			warehouse2: [this.model.warehouse2],
+
+
+			citySubject: [this.citySubject.value],
 		});
 	}
 
@@ -61,19 +68,23 @@ export class MerchantEditComponent implements OnInit {
 		return result;
 	}
 
-	prepareModel(): MerchantModel { 
+	prepareModel(): MerchantModel {
 		const controls = this.form.controls;
 		const model = new MerchantModel();
 		model.id = this.model.id;
-		model.merchantName = controls['merchantName'].value; 
-		model.city = controls['city'].value;
-		model.representive = controls['representive'].value;  
+		model.merchantName = controls['merchantName'].value;
+		// model.representive = controls['representive'].value;
 		model.aliasName = controls['aliasName'].value;
 		model.phone = controls['phone'].value;
-		model.logoCode = controls['logoCode'].value;
+		model.merchantCode = controls['merchantCode'].value;
+		model.warehouse1 = controls['warehouse1'].value;
+		model.warehouse2 = controls['warehouse2'].value;
+		model.city = this.citySubject.value;
 
 		return model;
 	}
+
+
 
 	onSubmit() {
 		this.formErrorMsg = null;
@@ -105,7 +116,7 @@ export class MerchantEditComponent implements OnInit {
 		});
 	}
 
-	createModel(model: MerchantModel) { 
+	createModel(model: MerchantModel) {
 		this.loadingAfterSubmit = true;
 		this.viewLoading = true;
 		this.merchantService.create(model).subscribe(res => {
