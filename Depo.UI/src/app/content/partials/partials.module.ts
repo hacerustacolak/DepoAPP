@@ -81,6 +81,7 @@ import { SCVehicleTypeAutocompleteComponent } from './components/autocomplete/sc
 import { VehicleTrackingDeviceCompanyAutocompleteComponent } from './components/autocomplete/vehicle-tracking-device-company-autocomplete/vehicle-tracking-device-company-autocomplete.component';
 import { VehicleModelAutocompleteComponent } from './components/autocomplete/vehicle-model-autocomplete/vehicle-model-autocomplete.component';
 import { VehicleYearAutocompleteComponent } from './components/autocomplete/vehicle-year-autocomplete/vehicle-year-autocomplete.component';
+import { WarehouseAutocompleteComponent } from './components/autocomplete/warehouse-autocomplete/warehouse-autocomplete.component';
 
 
 @NgModule({
@@ -94,6 +95,7 @@ import { VehicleYearAutocompleteComponent } from './components/autocomplete/vehi
 		NoticeComponent,
 		CronEditorComponent,
 		CityAutocompleteComponent,
+		WarehouseAutocompleteComponent,
 		GroupAutocompleteComponent,
 		CompanyAutocompleteComponent,
 		RegionAutocompleteComponent,
@@ -196,6 +198,7 @@ import { VehicleYearAutocompleteComponent } from './components/autocomplete/vehi
 		MatChipsModule,
 		NgxPermissionsModule,
 		CityAutocompleteComponent,
+		WarehouseAutocompleteComponent,
 		GroupAutocompleteComponent,
 		CompanyAutocompleteComponent,
 		RegionAutocompleteComponent,

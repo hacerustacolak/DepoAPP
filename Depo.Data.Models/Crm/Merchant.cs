@@ -123,7 +123,9 @@ namespace Depo.Data.Models.Crm
 		public string CreateDate { get; set; }
 		public int Depo1Id { get; set; }
 		public int Depo2Id { get; set; }
+        public string Depo1Name { get; set; }
+        public string Depo2Name { get; set; }
 
-	}
+    }
 
 }

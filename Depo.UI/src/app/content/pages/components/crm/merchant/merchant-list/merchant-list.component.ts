@@ -68,9 +68,7 @@ export class MerchantListComponent implements OnInit {
 				'phone',
 				'city',
 				'warehouse1',
-				'warehouse2',
-				// 'createDate',
-				// 'representive',
+				'warehouse2', 
 				'actions',
 			];
 

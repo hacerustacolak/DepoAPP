@@ -49,7 +49,7 @@ namespace Depo.Api.Controllers.Crm
 
             try
             {
-                var query = from r in _context.Merchant.Where(p => !p.IsDeleted)  
+                var query = from r in _context.Merchant.Where(p => !p.IsDeleted)   
                             select new MerchantView()
                             {
                                 Id = r.Id,
@@ -69,7 +69,9 @@ namespace Depo.Api.Controllers.Crm
                                 Representive = r.Representive,
                                 CreateDate=r.CreateDate.ToString("yyyy-MM-dd"),
                                 Depo1Id=r.Depo1Id,
-                                Depo2Id=r.Depo2Id
+                                Depo2Id=r.Depo2Id,
+                                Depo1Name= _context.Warehouse.Where(p => !p.IsDeleted &&p.Id==r.Depo1Id).FirstOrDefault().WarehouseName,
+                                Depo2Name = _context.Warehouse.Where(p => !p.IsDeleted && p.Id == r.Depo2Id).FirstOrDefault().WarehouseName,
                             };
 
                 if (filter != null)

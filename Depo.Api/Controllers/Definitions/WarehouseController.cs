@@ -22,10 +22,38 @@ namespace Depo.Api.Controllers.Definitions
     [Authorize]
     public class WarehouseController : ControllerBase
     {
-        private readonly DepoDbContext _context; 
+        private readonly DepoDbContext _context;
         public WarehouseController(DepoDbContext context)
         {
             _context = context;
+        }
+
+        [HttpGet]
+        [PermissionRequirement(only: "canReadWarehouse")]
+        public async Task<DepoApiResponse> GetAll()
+        {
+            var res = new DepoApiResponse(false);
+            var usr = Utility.GetCurrentUser(User);
+
+            try
+            {
+                var result = await (from r in _context.Warehouse.Where(p => !p.IsDeleted)
+                                    select new Warehouse()
+                                    {
+                                        Id = r.Id,
+                                        WarehouseName = r.WarehouseName
+                                    }).ToListAsync().ConfigureAwait(false);
+
+                res = new DepoApiResponse(true);
+                res.Data = result;
+
+                return res;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return res;
+            }
         }
 
         [HttpGet("find")]
@@ -44,13 +72,13 @@ namespace Depo.Api.Controllers.Definitions
                 var query = from r in _context.Warehouse.Where(p => !p.IsDeleted)
                             select new Warehouse()
                             {
-                                Id = r.Id, 
+                                Id = r.Id,
                                 Phone = r.Phone,
                                 City = r.City,
                                 LogoCode = r.LogoCode,
                                 Representative = r.Representative,
-                                Address=r.Address,
-                                WarehouseName=r.WarehouseName
+                                Address = r.Address,
+                                WarehouseName = r.WarehouseName
                             };
 
                 if (filter != null)

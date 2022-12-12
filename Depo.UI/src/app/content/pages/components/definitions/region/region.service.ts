@@ -17,6 +17,7 @@ export class RegionService {
 	API_URL = this.httpUtils.baseApiUrl;
 	API_REGION_ENDPOINT = this.API_URL + '/api/region';
 	API_CITY_ENDPOINT = this.API_URL + '/api/city';
+	API_WAREHOUSE_ENDPOINT = this.API_URL + '/api/warehouse';
 
 	httpHeaders = this.httpUtils.getHTTPHeaders();
 
@@ -48,5 +49,9 @@ export class RegionService {
 
 	getAllCity(): Observable<any> {
 		return this.http.get<any>(this.API_CITY_ENDPOINT, { headers: this.httpHeaders });
+	}
+
+	getAllWarehouse(): Observable<any> {
+		return this.http.get<any>(this.API_WAREHOUSE_ENDPOINT, { headers: this.httpHeaders });
 	}
 }
