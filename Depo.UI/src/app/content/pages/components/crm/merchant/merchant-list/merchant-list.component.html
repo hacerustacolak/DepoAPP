@@ -97,7 +97,7 @@
                 <ng-container matColumnDef="merchantCode">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'MÜŞ. KODU' | translate }}
                     </mat-header-cell>
-                    <mat-cell *matCellDef="let model">{{model.merchantCode}}</mat-cell>
+                    <mat-cell *matCellDef="let model">{{model.logoCode}}</mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="phone">
@@ -127,13 +127,13 @@
                 <ng-container matColumnDef="warehouse1">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{ '1.DEPO' | translate }}
                     </mat-header-cell>
-                    <mat-cell *matCellDef="let model">{{model.warehouse1}}</mat-cell>
+                    <mat-cell *matCellDef="let model">{{model.depo1Name}}</mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="warehouse2">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{ '2.DEPO' | translate }}
                     </mat-header-cell>
-                    <mat-cell *matCellDef="let model">{{model.warehouse2}}</mat-cell>
+                    <mat-cell *matCellDef="let model">{{model.depo2Name}}</mat-cell>
                 </ng-container>
 
                

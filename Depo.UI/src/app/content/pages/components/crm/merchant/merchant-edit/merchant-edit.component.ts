@@ -21,6 +21,8 @@ export class MerchantEditComponent implements OnInit {
 	companySubject: BehaviorSubject<number>;
 	regionSubject: BehaviorSubject<number>;
 	citySubject: BehaviorSubject<number>;
+	warehouseSubject: BehaviorSubject<number>;
+	warehouseSubject2: BehaviorSubject<number>;
 
 	constructor(public dialogRef: MatDialogRef<MerchantEditComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: any,
@@ -34,6 +36,8 @@ export class MerchantEditComponent implements OnInit {
 	ngOnInit() {
 		this.model = this.data.model;
 		this.citySubject = new BehaviorSubject<number>(this.model.city);
+		this.warehouseSubject = new BehaviorSubject<number>(this.model.depo1Id);
+		this.warehouseSubject2 = new BehaviorSubject<number>(this.model.depo2Id);
 		this.createForm();
 	}
 
@@ -44,11 +48,9 @@ export class MerchantEditComponent implements OnInit {
 			city: [this.model.city],
 			// representive: [this.model.representive],
 			phone: [this.model.phone],
-			merchantCode: [this.model.merchantCode],
-			warehouse1: [this.model.warehouse1],
-			warehouse2: [this.model.warehouse2],
-
-
+			logoCode: [this.model.logoCode],
+			warehouse1: [this.model.depo1Id],
+			warehouse2: [this.model.depo2Id], 
 			citySubject: [this.citySubject.value],
 		});
 	}
@@ -76,9 +78,9 @@ export class MerchantEditComponent implements OnInit {
 		// model.representive = controls['representive'].value;
 		model.aliasName = controls['aliasName'].value;
 		model.phone = controls['phone'].value;
-		model.merchantCode = controls['merchantCode'].value;
-		model.warehouse1 = controls['warehouse1'].value;
-		model.warehouse2 = controls['warehouse2'].value;
+		model.logoCode = controls['logoCode'].value;
+		model.depo1Id = this.warehouseSubject.value;
+		model.depo2Id = this.warehouseSubject2.value;
 		model.city = this.citySubject.value;
 
 		return model;
@@ -109,6 +111,7 @@ export class MerchantEditComponent implements OnInit {
 	}
 
 	updateModel(model: MerchantModel) {
+		debugger;
 		this.loadingAfterSubmit = true;
 		this.viewLoading = true;
 		this.merchantService.update(model).subscribe(res => {

@@ -16,12 +16,12 @@ export class MerchantModel {
 	phone:string;
 	email:string;
 	// logoCode:string;
-	merchantCode:string;
+	logoCode:string;
 	representive:string;
 	createDate:string;
 	city:number;
-	warehouse1: number;
-	warehouse2: number;
+	depo1Id: number;
+	depo2Id: number;
 	
 
 	clear() {
@@ -40,12 +40,12 @@ export class MerchantModel {
 		this.phone = '';
 		this.email = ''; 
 		// this.logoCode= '';
-		this.merchantCode='';
+		this.logoCode='';
 		this.representive= '';
 		this.createDate= '';
 		this.city= 0;
-		this.warehouse1=0;
-		this.warehouse2=0;
+		this.depo1Id=0;
+		this.depo2Id=0;
 
 	}
 }
